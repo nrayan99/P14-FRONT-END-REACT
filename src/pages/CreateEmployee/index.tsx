@@ -1,3 +1,5 @@
+import Select from "react-select";
+
 function CreateEmployee() {
   const inputs = [
     {
@@ -43,6 +45,45 @@ function CreateEmployee() {
       type: "text",
     },
   ];
+
+  const options = [
+    { value: "Sales", label: "Sales" },
+    { value: "Marketing", label: "Marketing" },
+    { value: "Engineering", label: "Engineering" },
+    { value: "Human Resources", label: "Human Resources" },
+    { value: "Legal", label: "Legal" },
+  ];
+  const selectStyle = {
+    control: (provided: any) => ({
+      ...provided,
+      cursor: "pointer",
+      fontWeight: "bold",
+      fontSize: "1.25rem",
+      height: "3rem",
+      boxShadow: "none",
+      border: "1px solid #000000",
+      color: "#000000",
+    }),
+    option: (provided: any) => ({
+      ...provided,
+      cursor: "pointer",
+      fontWeight: "bold",
+      fontSize: "1.25rem",
+      color : "#000000",
+    }),
+    singleValue: (provided: any) => ({
+      ...provided,
+      fontWeight: "bold",
+      fontSize: "1.25rem",
+      color : "#000000",
+    }),
+    placeholder: (provided: any) => ({
+      ...provided,
+      fontWeight: "bold",
+      fontSize: "1.25rem",
+      color : "#000000",
+    }),
+  };
   return (
     <div>
       <h2 className="text-center font-bold text-4xl mb-10">Create Employee</h2>
@@ -55,7 +96,7 @@ function CreateEmployee() {
             <input
               id={input.id}
               type={input.type}
-              className="bg-secondary/40 font-bold p-3"
+              className="border font-bold p-3 rounded-md"
             />
           </div>
         ))}
@@ -69,20 +110,19 @@ function CreateEmployee() {
               <input
                 id={input.id}
                 type={input.type}
-                className="bg-secondary/40 font-bold p-3"
+                className="border font-bold p-3 rounded-md"
               />
             </div>
           ))}
         </fieldset>
-
-        <label htmlFor="department">Department</label>
-        <select name="department" id="department">
-          <option>Sales</option>
-          <option>Marketing</option>
-          <option>Engineering</option>
-          <option>Human Resources</option>
-          <option>Legal</option>
-        </select>
+        <Select
+          styles={selectStyle}
+          options={options}
+          placeholder="Department"
+        />
+        <button className="bg-primary text-secondary font-bold p-3 text-xl rounded-lg border-secondary border hover:bg-primary/40 transition-colors duration-150">
+          Save
+        </button>
       </form>
     </div>
   );
