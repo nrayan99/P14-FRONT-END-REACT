@@ -4,7 +4,7 @@ import states from "../../utils/states";
 import "react-datepicker/dist/react-datepicker.css";
 import { FormEvent, useState } from "react";
 import { Employee } from "../../types/employee.types";
-import createEmployee from "../../api/employee";
+import {createEmployee} from "../../api/employee";
 
 interface OptionType {
   label: string;
