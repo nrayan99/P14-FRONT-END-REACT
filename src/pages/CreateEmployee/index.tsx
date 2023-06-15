@@ -2,8 +2,9 @@ import Select from "react-select";
 import DatePicker from "react-datepicker";
 import states from "../../utils/states";
 import "react-datepicker/dist/react-datepicker.css";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { Employee } from "../../types/employee.types";
+import createEmployee from "../../api/employee";
 
 interface OptionType {
   label: string;
@@ -106,6 +107,11 @@ function CreateEmployee() {
     setState: (value: string | number | OptionType) => void;
   }>;
 
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    createEmployee(employee)
+  }
+
   const selectStyle = {
     control: (provided: any) => ({
       ...provided,
@@ -140,7 +146,7 @@ function CreateEmployee() {
   return (
     <div>
       <h2 className="text-center font-bold text-4xl mb-10">Create Employee</h2>
-      <form className="flex flex-col w-full sm:w-2/4 mx-auto gap-y-4">
+      <form className="flex flex-col w-full sm:w-2/4 mx-auto gap-y-4" onSubmit={e => handleSubmit(e)}>
         {inputs.map((input) => (
           <div key={input.label} className="flex flex-col gap-y-4">
             <label htmlFor={input.id} className="font-bold text-xl">
