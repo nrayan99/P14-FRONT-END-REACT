@@ -1,59 +1,16 @@
 import Select from "react-select";
 import DatePicker from "react-datepicker";
-
+import states from "../../utils/states";
 import "react-datepicker/dist/react-datepicker.css";
 import { useState } from "react";
+import { Employee } from "../../types/employee.types";
+
+interface OptionType {
+  label: string;
+  value: string;
+}
 
 function CreateEmployee() {
-  const [startDate, setStartDate] = useState(null as Date | null);
-  const [dateOfBirth, setDateOfBirth] = useState(null as Date | null);
-
-  const inputs = [
-    {
-      label: "First Name",
-      id: "first-name",
-      type: "text",
-    },
-    {
-      label: "Last Name",
-      id: "last-name",
-      type: "text",
-    },
-  ];
-  const datePickerInputs = [
-    {
-      label: "Start Date",
-      state: startDate,
-      setState: setStartDate,
-    },
-    {
-      label: "Date of Birth",
-      state: dateOfBirth,
-      setState: setDateOfBirth,
-    },
-  ];
-  const addressInputs = [
-    {
-      label: "Street",
-      id: "street",
-      type: "text",
-    },
-    {
-      label: "City",
-      id: "city",
-      type: "text",
-    },
-    {
-      label: "State",
-      id: "state",
-      type: "text",
-    },
-    {
-      label: "Zip Code",
-      id: "zip-code",
-      type: "text",
-    },
-  ];
 
   const options = [
     { value: "Sales", label: "Sales" },
@@ -61,7 +18,94 @@ function CreateEmployee() {
     { value: "Engineering", label: "Engineering" },
     { value: "Human Resources", label: "Human Resources" },
     { value: "Legal", label: "Legal" },
+  ]
+
+  const [employee, setEmployee] = useState({
+    firstName: "",
+    lastName: "",
+    startDate: null,
+    dateOfBirth: null,
+    street: "",
+    city: "",
+    state: states[0],
+    zipCode: 0,
+    department: options[0],
+  } as Employee);
+
+  const inputs = [
+    {
+      label: "First Name",
+      id: "first-name",
+      type: "text",
+      state: employee.firstName,
+      setState: (firstName: string) => updateEmployee("firstName", firstName),
+    },
+    {
+      label: "Last Name",
+      id: "last-name",
+      type: "text",
+      state: employee.lastName,
+      setState: (lastName: string) => updateEmployee("lastName", lastName),
+    },
   ];
+  function updateEmployee(
+    key: string,
+    value: string | number | Date | null | OptionType
+  ): void {
+    setEmployee({ ...employee, [key]: value });
+  }
+  const datePickerInputs = [
+    {
+      label: "Start Date",
+      state: employee.startDate,
+      setState: (date: Date | null) => updateEmployee("startDate", date),
+    },
+    {
+      label: "Date of Birth",
+      state: employee.dateOfBirth,
+      setState: (date: Date | null) => updateEmployee("dateOfBirth", date),
+    },
+  ];
+
+  const addressInputs = [
+    {
+      label: "Street",
+      id: "street",
+      type: "text",
+      state: employee.street,
+      setState: (street: string) => updateEmployee("street", street),
+    },
+    {
+      label: "City",
+      id: "city",
+      type: "text",
+      state: employee.city,
+      setState: (city: string) => updateEmployee("city", city),
+    },
+    {
+      label: "State",
+      id: "state",
+      type: "select",
+      options: states,
+      state: employee.state,
+      setState: (state: OptionType) => updateEmployee("state", state),
+    },
+    {
+      label: "Zip Code",
+      id: "zip-code",
+      type: "text",
+      state: employee.zipCode,
+      setState: (zipCode: number) => updateEmployee("zipCode", zipCode),
+    },
+  ] as Array<{
+    label: string;
+    id: string;
+    type: string;
+    options?: Array<OptionType>;
+    state: string | number | null | OptionType;
+    setState: (value: string | number | OptionType) => void;
+  }>;
+
   const selectStyle = {
     control: (provided: any) => ({
       ...provided,
@@ -105,7 +149,9 @@ function CreateEmployee() {
             <input
               id={input.id}
               type={input.type}
-              className="border font-bold p-3 rounded-md"
+              className="border font-bold p-3 rounded-md h-12"
+              value={input.state || ""}
+              onChange={(e) => input.setState(e.target.value)}
             />
           </div>
         ))}
@@ -134,19 +180,35 @@ function CreateEmployee() {
               <label htmlFor={input.id} className="font-bold text-xl">
                 {input.label}
               </label>
-              <input
-                id={input.id}
-                type={input.type}
-                className="border font-bold p-3 rounded-md"
-              />
+              {input.type === "select" ? (
+                <Select
+                  styles={selectStyle}
+                  options={input.options}
+                  value={input.state}
+                  menuPlacement="auto"
+                  onChange={(option) => input.setState(option as OptionType)}
+                />
+              ) : (
+                <input
+                  id={input.id}
+                  type={input.type}
+                  className="border font-bold p-3 rounded-md h-12"
+                  value={(input.state as string | number | null) || ""}
+                  onChange={(e) => input.setState(e.target.value)}
+                />
+              )}
             </div>
           ))}
         </fieldset>
+        <label htmlFor="department" className="font-bold text-xl">
+          Department
+        </label>
         <Select
           styles={selectStyle}
           options={options}
-          placeholder="Department"
+          value={employee.department}
           menuPlacement="auto"
+          onChange={(option) => updateEmployee("department", option)}
         />
         <button className="bg-primary text-secondary font-bold p-3 text-xl rounded-lg border-secondary border hover:bg-primary/40 transition-colors duration-150">
           Save
