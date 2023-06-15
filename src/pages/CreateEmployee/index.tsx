@@ -1,6 +1,13 @@
 import Select from "react-select";
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
+import { useState } from "react";
 
 function CreateEmployee() {
+  const [startDate, setStartDate] = useState(null as Date | null);
+  const [dateOfBirth, setDateOfBirth] = useState(null as Date | null);
+
   const inputs = [
     {
       label: "First Name",
@@ -12,15 +19,17 @@ function CreateEmployee() {
       id: "last-name",
       type: "text",
     },
-    {
-      label: "Date of Birth",
-      id: "date-of-birth",
-      type: "text",
-    },
+  ];
+  const datePickerInputs = [
     {
       label: "Start Date",
-      id: "start-date",
-      type: "text",
+      state: startDate,
+      setState: setStartDate,
+    },
+    {
+      label: "Date of Birth",
+      state: dateOfBirth,
+      setState: setDateOfBirth,
     },
   ];
   const addressInputs = [
@@ -69,25 +78,25 @@ function CreateEmployee() {
       cursor: "pointer",
       fontWeight: "bold",
       fontSize: "1.25rem",
-      color : "#000000",
+      color: "#000000",
     }),
     singleValue: (provided: any) => ({
       ...provided,
       fontWeight: "bold",
       fontSize: "1.25rem",
-      color : "#000000",
+      color: "#000000",
     }),
     placeholder: (provided: any) => ({
       ...provided,
       fontWeight: "bold",
       fontSize: "1.25rem",
-      color : "#000000",
+      color: "#000000",
     }),
   };
   return (
     <div>
       <h2 className="text-center font-bold text-4xl mb-10">Create Employee</h2>
-      <form className="flex flex-col w-2/4 mx-auto gap-y-4">
+      <form className="flex flex-col w-full sm:w-2/4 mx-auto gap-y-4">
         {inputs.map((input) => (
           <div key={input.label} className="flex flex-col gap-y-4">
             <label htmlFor={input.id} className="font-bold text-xl">
@@ -100,7 +109,25 @@ function CreateEmployee() {
             />
           </div>
         ))}
-        <fieldset className="flex flex-col gap-y-4 border-secondary p-5 border-4">
+        <div>
+          {datePickerInputs.map((input) => (
+            <div
+              key={input.label}
+              className="flex flex-col gap-y-4 w-full mb-4"
+            >
+              <label htmlFor={input.label} className="font-bold text-xl">
+                {input.label}
+              </label>
+              <DatePicker
+                selected={input.state}
+                onChange={(date: Date | null) => input.setState(date)}
+                className="border font-bold p-3 rounded-md w-full"
+                dateFormat="MMMM d, yyyy"
+              />
+            </div>
+          ))}
+        </div>
+        <fieldset className="flex flex-col gap-y-4 border-secondary p-2 sm:p-5 border-4">
           <legend className="font-bold text-3xl">Address</legend>
           {addressInputs.map((input) => (
             <div key={input.label} className="flex flex-col gap-y-4">
@@ -119,6 +146,7 @@ function CreateEmployee() {
           styles={selectStyle}
           options={options}
           placeholder="Department"
+          menuPlacement="auto"
         />
         <button className="bg-primary text-secondary font-bold p-3 text-xl rounded-lg border-secondary border hover:bg-primary/40 transition-colors duration-150">
           Save

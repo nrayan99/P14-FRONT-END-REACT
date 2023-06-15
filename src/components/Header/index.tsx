@@ -14,7 +14,7 @@ function Header() {
         </Link>
 
         <nav>
-          <ul className="flex space-x-4 font-bold text-lg">
+          <ul className="flex space-x-1 sm:space-x-4 font-bold text-lg">
             <li>
               <Link to="/create" className={linkClassName('/create')}>
                 Create employee

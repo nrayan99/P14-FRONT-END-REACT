@@ -5,7 +5,7 @@ function DefaultLayout() {
   return (
     <>
       <Header />
-      <main className="main p-10">
+      <main className="main p-6 sm:p-14">
         <Outlet />
       </main>
     </>
