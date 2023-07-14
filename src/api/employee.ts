@@ -1,4 +1,4 @@
-import { Employee } from "../types/employee.types";
+import { Employee, EmployeeData } from "../types/employee.types";
 import { formatDate } from "../utils/dates";
 
 export function createEmployee(employee: Employee) {
@@ -18,6 +18,6 @@ export function createEmployee(employee: Employee) {
   localStorage.setItem("employees", JSON.stringify(employees));
 }
 
-export function getEmployees() {
+export async function getEmployees(): Promise<EmployeeData[]> {
   return JSON.parse(localStorage.getItem("employees") || "[]") || [];
 }

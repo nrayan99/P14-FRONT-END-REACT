@@ -1,9 +1,14 @@
 import MUIDataTable, { SelectableRows } from "mui-datatables";
-import { useMemo } from "react";
+import { useEffect, useState } from "react";
 import { getEmployees } from "../../api/employee";
+import { EmployeeData } from "../../types/employee.types";
 function EmployeeList() {
-
-  const data = useMemo(() => getEmployees(), []);
+  const [data, setData] = useState([] as EmployeeData[]);
+  useEffect(() => {
+    getEmployees().then((res: EmployeeData[]) => {
+      setData(res);
+    });
+  }, []);
   const columns = [
     {
       name: "firstName",
@@ -41,7 +46,7 @@ function EmployeeList() {
       name: "zipCode",
       label: "Zip Code",
     },
-  ]
+  ];
   const options = {
     selectableRows: "none" as SelectableRows,
   };
