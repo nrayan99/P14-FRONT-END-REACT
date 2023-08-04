@@ -162,6 +162,7 @@ function CreateEmployeeForm({
             value={input.state || ""}
             onChange={(e) => input.setState(e.target.value)}
             autoComplete="true"
+            required
           />
         </div>
       ))}
@@ -177,6 +178,7 @@ function CreateEmployeeForm({
               onChange={(date: Date | null) => input.setState(date)}
               className="border font-bold p-3 rounded-md w-full"
               dateFormat="MMMM d, yyyy"
+              required
             />
           </div>
         ))}
@@ -196,6 +198,7 @@ function CreateEmployeeForm({
                 value={input.state}
                 menuPlacement="auto"
                 onChange={(option) => input.setState(option as OptionType)}
+                required
               />
             ) : (
               <input
@@ -204,6 +207,7 @@ function CreateEmployeeForm({
                 className="border font-bold p-3 rounded-md h-12"
                 value={(input.state as string | number | null) || ""}
                 onChange={(e) => input.setState(e.target.value)}
+                required
               />
             )}
           </div>
@@ -219,6 +223,7 @@ function CreateEmployeeForm({
         value={employee.department}
         menuPlacement="auto"
         onChange={(option) => updateEmployee("department", option)}
+        required
       />
       <button className="bg-primary text-secondary font-bold p-3 text-xl rounded-lg border-secondary border hover:bg-primary/40 transition-colors duration-150">
         Save
