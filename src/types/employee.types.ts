@@ -5,8 +5,8 @@ export interface OptionType {
 type EmployeeBase = {
   firstName: string;
   lastName: string;
-  startDate: Date | null;
-  dateOfBirth: Date | null;
+  startDate: Date | string | null;
+  dateOfBirth: Date | string | null;
   street: string;
   city: string;
   zipCode: number;

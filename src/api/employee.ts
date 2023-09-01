@@ -1,9 +1,10 @@
+import { store } from "../app/store";
+import { addEmployee } from "../features/employees/employeesSlice";
 import { Employee, EmployeeData } from "../types/employee.types";
 import { formatDate } from "../utils/dates";
 
 export async function createEmployee(employee: Employee) {
   try {
-    const employees = JSON.parse(localStorage.getItem("employees") || "[]") || [];
     const employeeDatas = {
       firstName: employee.firstName,
       lastName: employee.lastName,
@@ -15,14 +16,9 @@ export async function createEmployee(employee: Employee) {
       state: employee.state.value,
       zipCode: employee.zipCode,
     };
-    employees.push(employeeDatas);
-    localStorage.setItem("employees", JSON.stringify(employees));
+    store.dispatch(addEmployee(employeeDatas))
   } catch (error) {
     console.error(error);
     throw new Error();
   }
-}
-
-export async function getEmployees(): Promise<EmployeeData[]> {
-  return JSON.parse(localStorage.getItem("employees") || "[]") || [];
 }

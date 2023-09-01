@@ -174,7 +174,7 @@ function CreateEmployeeForm({
             </label>
             <DatePicker
               id={input.label}
-              selected={input.state}
+              selected={input.state as Date}
               onChange={(date: Date | null) => input.setState(date)}
               className="border font-bold p-3 rounded-md w-full"
               dateFormat="MMMM d, yyyy"

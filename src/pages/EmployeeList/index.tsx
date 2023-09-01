@@ -1,14 +1,8 @@
 import MUIDataTable, { SelectableRows } from "mui-datatables";
-import { useEffect, useState } from "react";
-import { getEmployees } from "../../api/employee";
-import { EmployeeData } from "../../types/employee.types";
+import { useAppSelector } from "../../app/hooks";
+import { selectEmployees } from "../../features/employees/employeesSlice";
 function EmployeeList() {
-  const [data, setData] = useState([] as EmployeeData[]);
-  useEffect(() => {
-    getEmployees().then((res: EmployeeData[]) => {
-      setData(res);
-    });
-  }, []);
+  const data = useAppSelector(selectEmployees)
   const columns = [
     {
       name: "firstName",
